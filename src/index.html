@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Price</title>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="main_Container">
+        <h1>Preço do Bitcoin: <span id="btcPrice">0</span></h1>
+    </div>
+
+
+    <script>
+        const spanPrice = document.getElementById("btcPrice");
+        let lastPrice = null;
+
+        async function getPrice() {
+            const btcPrice = await fetch("http://localhost:8080");
+            const data = await btcPrice.json();
+            const price = data.price;
+            spanPrice.innerHTML = price;
+            
+
+            
+            if (price < lastPrice) {
+                spanPrice.style.color = "#9c1c1c";
+            } else {
+                spanPrice.style.color = "#41cc25";
+            }
+
+            lastPrice = price;
+        }
+
+        setInterval(() => {
+            getPrice();
+        }, 500)
+    </script>
+</body>
+</html>
